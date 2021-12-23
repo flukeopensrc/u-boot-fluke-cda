@@ -1,0 +1,13 @@
+Four of the headers in this directory (iocsr_config.h, pinmux_config.h, 
+pll_config.h, and sdram_config.h) are created from the quartus
+generated handoff files by the script found at
+
+arch/arm/mach-socfpga/qts-filter.sh
+
+The reset_config.h file needs to be copied into this directory by hand.
+
+For example:
+
+../../../../arch/arm/mach-socfpga/qts-filter.sh cyclone5 ~/git/sumo-rootfs-extras/Nighthawk/handoff/20_01_23_Nighthawk/spl_bsp ~/git/sumo-rootfs-extras/Nighthawk/handoff/20_01_23_Nighthawk/spl_bsp .
+
+cp ~/git/sumo-rootfs-extras/Nighthawk/handoff/20_01_23_Nighthawk/spl_bsp/generated/reset_config.h .
