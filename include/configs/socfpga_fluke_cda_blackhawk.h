@@ -23,7 +23,7 @@
  */
 /* Monitor Command Prompt */
 /*
-#define CONFIG_SYS_PROMPT		"Fluke Nighthawk A9 Rev002 # " 
+#define CONFIG_SYS_PROMPT		"Fluke Blackhawk A20 # "
 */
 
 /* Define machine type for Cyclone 5 */
