@@ -1,0 +1,190 @@
+/*
+ * Nighthawk device tree for use by u-boot
+ */
+#include "socfpga_cyclone5.dtsi"
+
+/ {
+    model = "Altera SOCFPGA Cyclone V";	/* appended from boardinfo */
+    compatible = "altr,socfpga-cyclone5", "altr,socfpga";	/* appended from boardinfo */
+
+    chosen {
+        bootargs = "earlyprintk";
+        stdout-path = "serial0:115200n8";
+    };
+
+    memory@0 {
+        device_type = "memory";
+            reg = < 0x00000000 0x80000000 >;
+    };
+
+    aliases {
+        ethernet0 = &gmac1;
+    }; //end aliases
+
+    soc {
+        u-boot,dm-pre-reloc;
+    }; //end soc
+};
+
+
+&gmac1 {
+    status = "okay";
+    phy-mode = "rgmii";
+    snps,phy-addr = < 0xFFFFFFFF >;
+    phy-addr = < 0xFFFFFFFF >;
+    rxd0-skew-ps = <0>;
+    rxd1-skew-ps = <0>;
+    rxd2-skew-ps = <0>;
+    rxd3-skew-ps = <0>;
+    txd0-skew-ps = <0>;
+    txd1-skew-ps = <0>;
+    txd2-skew-ps = <0>;
+    txd3-skew-ps = <0>;
+    txen-skew-ps = <0>;
+    txc-skew-ps = <3000>;
+    rxdv-skew-ps = <0>;
+    rxc-skew-ps = <3000>;
+    max-frame-size = <3800>;
+    tx-fifo-depth = <4096>;	/* embeddedsw.dts.params.tx-fifo-depth type NUMBER */
+    rx-fifo-depth = <4096>;	/* embeddedsw.dts.params.rx-fifo-depth type NUMBER */
+};
+
+&i2c0 {
+    status = "ok";
+    speed-mode = <0>;
+        eeprom@51 {
+        compatible = "atmel,24c32";
+        reg = < 0x51 >;
+        pagesize = < 32 >;
+    };
+};
+
+&i2c1 {
+    status = "okay";
+    speed-mode = <0>;
+
+    rtc@51 {
+        compatible = "rtc,pcf8563";
+        reg = <0x51>;
+    };
+};
+
+&i2c2 {
+    status = "okay";
+    speed-mode = <0>;
+    codec@18 {
+        compatible = "TI,TLV320AIC3101";
+        reg = < 0x18 >;
+    };
+};
+
+&spi0 {
+    #address-cells = < 1 >;
+    #size-cells = < 0 >;
+    bus-num = < 0 >;
+    num-chipselect = < 4 >;
+    status = "okay";
+
+    spidev@0 {
+        compatible = "spidev";
+        reg = < 0x0 >;
+        spi-max-frequency = < 100000000 >;
+        enable-dma = < 1 >;
+    };
+
+    temp@1 {
+        compatible = "hwmon,adt7302";
+        reg = < 0x1 >;
+        spi-max-frequency = < 100000000 >;
+        enable-dma = < 1 >;
+    };
+};
+
+&qspi {
+    compatible = "cadence,qspi";
+    u-boot,dm-pre-reloc;
+    status = "okay";
+    flash0: n25q512a@0 {
+        u-boot,dm-pre-reloc;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "n25q512a", "spi-flash";
+        reg = <0>;      /* chip select */
+        spi-max-frequency = <50000000>;
+        cdns,page-size = <256>;
+        cdns,block-size = <16>;
+        cdns,read-delay = <4>;
+        cdns,tshsl-ns = <50>;
+        cdns,tsd2d-ns = <50>;
+        cdns,tchsh-ns = <4>;
+        cdns,tslch-ns = <4>;
+        cdns,is-decoded-cs = <0>;
+        cdns,trigger-address = <0x00000000>;
+        /* u-boot version of cadence_qspi currently doesn't expect the "cdns," prefix */
+        page-size = <256>;
+        block-size = <16>;
+        read-delay = <4>;
+        tshsl-ns = <50>;
+        tsd2d-ns = <50>;
+        tchsh-ns = <4>;
+        tslch-ns = <4>;
+        is-decoded-cs = <0>;
+    };
+
+    flash1: n25q00@1 {
+        u-boot,dm-pre-reloc;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "n25q00", "spi-flash";
+        reg = <1>;      /* chip select */
+        spi-max-frequency = <50000000>;
+        cdns,page-size = <256>;
+        cdns,block-size = <16>;
+        cdns,read-delay = <4>;
+        cdns,tshsl-ns = <50>;
+        cdns,tsd2d-ns = <50>;
+        cdns,tchsh-ns = <4>;
+        cdns,tslch-ns = <4>;
+        cdns,is-decoded-cs = <0>;
+        cdns,trigger-address = <0x00000000>;
+        /* u-boot version of cadence_qspi currently doesn't expect the "cdns," prefix */
+        page-size = <256>;
+        block-size = <16>;
+        read-delay = <4>;
+        tshsl-ns = <50>;
+        tsd2d-ns = <50>;
+        tchsh-ns = <4>;
+        tslch-ns = <4>;
+        is-decoded-cs = <0>;
+    };
+};
+
+&uart0 {
+    u-boot,dm-pre-reloc;
+    status = "okay";
+};
+
+&uart1 {
+    u-boot,dm-pre-reloc;
+    status = "okay";
+};
+
+&usb0 {
+    status = "okay";
+};
+
+&usb1 {
+    status = "okay";
+};
+
+&gpio0 {
+    status = "okay";
+};
+
+&gpio1 {
+    status = "okay";
+};
+
+&gpio2 {
+    status = "okay";
+};
