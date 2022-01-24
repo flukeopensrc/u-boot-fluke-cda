@@ -47,7 +47,7 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE         "zImage"
-#define CONFIG_BOOTARGS         "console=ttyS0," __stringify(CONFIG_BAUDRATE)
+#define CONFIG_BOOTARGS         "console=ttyS0," __stringify(CONFIG_BAUDRATE) " vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1"
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
@@ -107,7 +107,6 @@
         "autoload=no\0" \
         "myserverip=10.0.0.10\0" \
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-        "ethaddr=00:80:40:ff:00:17\0" \
         "scriptfile=u-boot.scr\0" \
         "stderr=serial\0" \
         "stdin=serial\0" \
@@ -116,34 +115,29 @@
         "bootimagesize=0x700000\0" \
         "fdtaddr=100\0" \
         "fdtimage=Blackhawk_soc.dtb\0" \
-        "fdtimagesize=0x7F00\0" \
+        "fdtimagesize=0xFFFF\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
         "fpgadatasize=0x600000\0" \
         "fpgadata=0x2000000\0" \
-        "qspifdtaddr=0x0C0000\0" \
-        "qspibootimageaddr=0x100000\0" \
+        "qspifdtaddr=0x110000\0" \
+        "qspibootimageaddr=0x200000\0" \
         "qspiloadcs=0\0" \
-        "qspifpgaaddr=0x3800000\0" \
-        "qspisplashimageaddr=0x3E00000\0" \
+        "qspifpgaaddr=0x1000000\0" \
         "qspiroot=/dev/mtdblock4\0" \
         "qspirootfstype=jffs2\0" \
         "qspifpga=sf probe ${qspiloadcs};" \
                 " sf read ${fpgadata} ${qspifpgaaddr} ${fpgadatasize};" \
                 " fpga load ${fpga} ${fpgadata} ${fpgadatasize}\0" \
         "qspiload=sf probe ${qspiloadcs};sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};" \
-                  "sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
-        "qspiboot=setenv bootargs console=ttyS0," __stringify(CONFIG_BAUDRATE) \
-                  " root=${qspiroot} rw rootfstype=${qspirootfstype} coherent_pool=1M;" \
-                  " bootz ${loadaddr} - ${fdtaddr}\0" \
-        "splashloadaddr=0xC100000\0" \
-        "splashimagesize=0x130000\0" \
-        "splashload=sf probe ${qspiloadcs}; sf read ${splashloadaddr} ${qspisplashimageaddr} ${splashimagesize}\0" \
-        "splashboot=run qspifpga; bridge enable; run splashload; go 0xC1000D9\0" \
+                " sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
+        "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
+                " root=${qspiroot} rw rootfstype=${qspirootfstype} coherent_pool=1M;" \
+                " bootz ${loadaddr} - ${fdtaddr}\0" \
         "netboot=dhcp; setenv serverip ${myserverip};" \
                " tftp ${serverip}:${bootimage};" \
                " tftp ${fdtaddr} ${serverip}:${fdtimage};" \
-               " setenv bootargs console=ttyS0," __stringify(CONFIG_BAUDRATE) \
+               " setenv bootargs " CONFIG_BOOTARGS \
                " root=${qspiroot} rw rootfstype=${qspirootfstype} coherent_pool=1M;" \
                " bootz ${loadaddr} - ${fdtaddr}\0"
 
