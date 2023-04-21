@@ -123,6 +123,7 @@ dtb-$(CONFIG_AM43XX) += am437x-gp-evm.dtb am437x-sk-evm.dtb	\
 dtb-$(CONFIG_THUNDERX) += thunderx-88xx.dtb
 
 dtb-$(CONFIG_ARCH_SOCFPGA) +=				\
+	socfpga_fluke_cda_blackhawk.dtb			\
 	socfpga_fluke_cda_nighthawk.dtb			\
 	socfpga_fluke_cda_vanquish.dtb			\
 	socfpga_fluke_cda_richmond.dtb			\
